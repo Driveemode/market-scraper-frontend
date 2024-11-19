@@ -10,7 +10,7 @@ const ScrapeForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('http://localhost:3000/api/scrape', {
+        const response = await fetch('http://18.116.80.104:3000/api/scrape', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
