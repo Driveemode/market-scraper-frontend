@@ -15,6 +15,9 @@ const RegisterPage = () => {
       await Auth.signUp({
         username: email,
         password,
+        attributes: {
+          email,
+        },
       });
       history.push('/confirm', { email });
     } catch (error) {
@@ -26,10 +29,24 @@ const RegisterPage = () => {
     <div className="register-page">
       <h1>Register</h1>
       <form onSubmit={handleRegister}>
-        <label>Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
         <button type="submit">Register</button>
       </form>
     </div>
