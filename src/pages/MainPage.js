@@ -1,26 +1,18 @@
 // src/pages/MainPage.js
-import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../AuthContext';
 import { useHistory } from 'react-router-dom';
-import ScraperForm from './ScraperForm';
+import ScraperForm from '../pages/ScraperForm';
 import './MainPage.css';
 
 const MainPage = () => {
+  const { handleLogout } = useContext(AuthContext);
   const [result, setResult] = useState(null);
   const history = useHistory();
 
-  const handleLogout = async () => {
-    try {
-      await Auth.signOut();
-      history.push('/');
-    } catch (error) {
-      console.error('Error signing out', error);
-    }
-  };
-
   return (
     <div className="main-page">
-      <button onClick={handleLogout} className="logout-button">Logout</button>
+      {/* <button onClick={handleLogout} className="logout-button">Logout</button> */}
       <ScraperForm setResult={setResult} />
       {result && (
         <div className="result">

@@ -2,7 +2,8 @@
 .login-page {
   text-align: center;
   padding: 50px;
-  background: linear-gradient(135deg, #1a73e8, #4285f4);
+  background: url('../images/bg1.jpg') no-repeat center center fixed;
+  background-size: cover;
   min-height: 100vh;
 }
 

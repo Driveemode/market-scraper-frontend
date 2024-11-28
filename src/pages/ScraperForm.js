@@ -1,62 +1,93 @@
 import React, { useState } from 'react';
-import '../App.css';
+import './ScraperForm.css';
 
-const ScrapeForm = () => {
-    const [url, setUrl] = useState('');
-    const [fields, setFields] = useState('');
-    const [method, setMethod] = useState('cheerio');
-    const [result, setResult] = useState(null);
+const ScraperForm = () => {
+  const [selectedSite, setSelectedSite] = useState('');
+  const [result, setResult] = useState(null);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        const response = await fetch('http://18.116.80.104:3000/api/scrape', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ url, fields: JSON.parse(fields), method })
-        });
+    const url = selectedSite === 'amazon' ? 'https://www.amazon.in/s?k=laptops' : 'https://www.flipkart.com/search?q=laptops';
+    const site = selectedSite === 'amazon' ? "Amazon" : "Flipkart";
+    const method = 'cheerio'; // or 'puppeteer' based on your requirement
 
-        const data = await response.json();
-        setResult(data);
-    };
+    try {
+      const response = await fetch('http://localhost:3000/api/scrape-ecom-cheerio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url, site, method })
+      });
 
-    return (
-        <div className="App">
-            <div className="form-container">
-                <h1>Web Scraper</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>URL:</label>
-                        <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} required />
-                    </div>
-                    <div className="form-group">
-                        <label>Fields (JSON format):</label>
-                        <textarea value={fields} onChange={(e) => setFields(e.target.value)} rows="4" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Method:</label>
-                        <select value={method} onChange={(e) => setMethod(e.target.value)} required>
-                            <option value="cheerio">Cheerio</option>
-                            <option value="puppeteer">Puppeteer</option>
-                            <option value="selenium">Selenium</option>
-                            <option value="jsdom">JSDOM</option>
-                            <option value="request-cheerio">Request-Cheerio</option>
-                            <option value="playwright">Playwright</option>
-                        </select>
-                    </div>
-                    <button type="submit" className="submit-button">Scrape</button>
-                </form>
-                {result && (
-                    <div className="result">
-                        <h2>Result</h2>
-                        <pre>{JSON.stringify(result, null, 2)}</pre>
-                    </div>
-                )}
-            </div>
+      const data = await response.json();
+      console.log("Data received:", data); // Debugging step
+      setResult(data.products);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const handleCheckboxChange = (event) => {
+    setSelectedSite(event.target.value);
+  };
+
+  return (
+    <div className="App">
+      <div className="form-container">
+        <h1>Web Scraper</h1>
+        <div className="form-group">
+          <label>
+            <input
+              type="checkbox"
+              value="amazon"
+              checked={selectedSite === 'amazon'}
+              onChange={handleCheckboxChange}
+            />
+            Amazon
+          </label>
         </div>
-    );
+        <div className="form-group">
+          <label>
+            <input
+              type="checkbox"
+              value="flipkart"
+              checked={selectedSite === 'flipkart'}
+              onChange={handleCheckboxChange}
+            />
+            Flipkart
+          </label>
+        </div>
+        <button onClick={handleSubmit}>Start Scraping</button>
+        {result && Array.isArray(result) && result.length > 0 ? (
+          <div className="result">
+            <h2>Scraping Result</h2>
+            <table>
+              <thead>
+                <tr>
+                  {Object.keys(result[0]).map((key) => (
+                    <th key={key}>{key}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {result.map((item, index) => (
+                  <tr key={index}>
+                    {Object.values(item).map((value, i) => (
+                      <td key={i}>{value}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>No data available</p>
+        )}
+      </div>
+    </div>
+  );
 };
 
-export default ScrapeForm;
+export default ScraperForm;
