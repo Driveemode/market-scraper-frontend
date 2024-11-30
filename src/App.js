@@ -7,7 +7,7 @@ import AnalysisResultsPage from './pages/AnalysisResultsPage';
 import RegisterPage from './pages/RegisterPage';
 import ConfirmPage from './pages/ConfirmPage';
 import AboutPage from './pages/AboutPage';
-import ProductsPage from './pages/ProductsPage';
+import ProductsPage from './pages/ProductsPage1';
 import { AuthProvider, AuthContext } from './AuthContext';
 import './App.css';
 
@@ -26,13 +26,13 @@ function App() {
             <nav>
               <Link to="/">Home</Link>
               <Link to="/about">About</Link>
-              <Link to="/products">Products</Link>
-              <Link to="/main">Scrape</Link>
               <AuthContext.Consumer>
                 {({ isAuthenticated, handleLogout }) => (
                   <>
                     {!isAuthenticated && <Link to="/login">Login</Link>}
                     {!isAuthenticated && <Link to="/register">Register</Link>}
+                    {isAuthenticated && <Link to="/main">Scrape</Link>}
+                    {isAuthenticated && <Link to="/products">Products</Link>}
                     {isAuthenticated && <Link to="/results">Analysis</Link>}
                     {isAuthenticated && <button onClick={handleLogout}>Logout</button>}
                   </>

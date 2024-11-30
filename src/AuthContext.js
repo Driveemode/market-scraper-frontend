@@ -7,13 +7,16 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(user => {
+    const checkAuthStatus = async () => {
+      try {
+        await Auth.currentAuthenticatedUser();
         setIsAuthenticated(true);
-      })
-      .catch(() => {
+      } catch {
         setIsAuthenticated(false);
-      });
+      }
+    };
+
+    checkAuthStatus();
   }, []);
 
   const handleLogout = async () => {
@@ -26,7 +29,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, handleLogout }}>
+    <AuthContext.Provider value={{ isAuthenticated, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -7,9 +7,9 @@
   min-height: 100vh;
 }
 
-header {
+/* header {
   margin-bottom: 50px;
-}
+} */
 
 .login-button, .register-button {
   display: inline-block;

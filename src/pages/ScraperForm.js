@@ -8,22 +8,39 @@ const ScraperForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const url = selectedSite === 'amazon' ? 'https://www.amazon.in/s?k=laptops' : 'https://www.flipkart.com/search?q=laptops';
-    const site = selectedSite === 'amazon' ? "Amazon" : "Flipkart";
+    const urls = {
+      amazon: 'https://www.amazon.com/s?k=laptops',
+      walmart: 'https://www.walmart.com/search/?query=laptops',
+      bestbuy: 'https://www.bestbuy.com/site/searchpage.jsp?st=laptops',
+      aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=laptops',
+    };
+
+    const sites = {
+      amazon: 'Amazon',
+      walmart: 'Walmart',
+      bestbuy: 'Best Buy',
+      aliexpress: 'AliExpress',
+    };
+
     const method = 'cheerio'; // or 'puppeteer' based on your requirement
 
     try {
+      const url = urls[selectedSite];
+      const site = sites[selectedSite];
       const response = await fetch('http://localhost:3000/api/scrape-ecom-cheerio', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url, site, method })
+        body: JSON.stringify({ url, site, method }),
       });
 
       const data = await response.json();
-      console.log("Data received:", data); // Debugging step
-      setResult(data.products);
+      const combinedResults = data.products;
+      console.log('Data received:', combinedResults); // Debugging step
+      if (combinedResults !== undefined) {
+        setResult(combinedResults);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -36,30 +53,55 @@ const ScraperForm = () => {
   return (
     <div className="App">
       <div className="form-container">
-        <h1>Web Scraper</h1>
-        <div className="form-group">
-          <label>
+        <h6>Select Website to be scraped</h6>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
             <input
               type="checkbox"
               value="amazon"
               checked={selectedSite === 'amazon'}
               onChange={handleCheckboxChange}
             />
-            Amazon
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
+            <label>Amazon</label>
+          </div>
+          <div className="form-group">
             <input
               type="checkbox"
-              value="flipkart"
-              checked={selectedSite === 'flipkart'}
+              value="walmart"
+              checked={selectedSite === 'walmart'}
               onChange={handleCheckboxChange}
             />
-            Flipkart
-          </label>
-        </div>
-        <button onClick={handleSubmit}>Start Scraping</button>
+            <label>Walmart</label>
+          </div>
+          <div className="form-group">
+            <input
+              type="checkbox"
+              value="bestbuy"
+              checked={selectedSite === 'bestbuy'}
+              onChange={handleCheckboxChange}
+            />
+            <label>Best Buy</label>
+          </div>
+          <div className="form-group">
+            <input
+              type="checkbox"
+              value="aliexpress"
+              checked={selectedSite === 'aliexpress'}
+              onChange={handleCheckboxChange}
+            />
+            <label>AliExpress</label>
+          </div>
+          <div className="form-group">
+            <input
+              type="checkbox"
+              value="all"
+              checked={selectedSite === 'all'}
+              onChange={handleCheckboxChange}
+            />
+            <label>All</label>
+          </div>
+          <button type="submit">Start Scraping</button>
+        </form>
         {result && Array.isArray(result) && result.length > 0 ? (
           <div className="result">
             <h2>Scraping Result</h2>

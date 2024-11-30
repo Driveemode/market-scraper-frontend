@@ -6,15 +6,10 @@ import './LandingPage.css';
 const LandingPage = () => {
   return (
     <div className="landing-page">
-      <header>
-        <h1>Welcome to Market Scraper</h1>
-        <p>Your ultimate tool for extracting and analyzing marketing data from various websites.</p>
-        {/* <Link to="/login" className="login-button">Login</Link>
-        <Link to="/register" className="register-button">Register</Link> */}
-      </header>
       <section>
-        <h2>About Market Scraper</h2>
+        <h2>Welcome to Market Scraper</h2>
         <p>
+          Your ultimate tool for extracting and analyzing marketing data from various websites.
           Market Scraper is an automated tool designed to extract publicly available marketing data from various websites. 
           It structures the extracted data, making it ready for analysis to help you prepare better marketing strategies.
         </p>

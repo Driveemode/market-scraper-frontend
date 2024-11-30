@@ -7,6 +7,7 @@ const AnalysisResultsPage = () => {
     <div>
       <h1>Analysis Results</h1>
       <p>Here you will see the analysis results of the scraped data.</p>
+      <img src="http://localhost:3000/api/price-comparison-chart" alt="Price Comparison Chart" />
       <VisualizationComponent />
       <VisualizationComponent1 />
     </div>
