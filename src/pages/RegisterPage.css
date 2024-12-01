@@ -2,7 +2,8 @@
 .register-page {
     text-align: center;
     padding: 50px;
-    background: url('../images/bg1.jpg') no-repeat center center fixed;
+    /* background: url('../images/bg1.jpg') no-repeat center center fixed; */
+    background-image: linear-gradient(to bottom right, #0f0637, #3c3658);
     background-size: cover;
     min-height: 100vh;
 }

@@ -22,10 +22,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  background-image: linear-gradient(to bottom right, #0f0637, #3c3658);
 }
 
 .App-link {
-  color: #61dafb;
+  color: #91e0f6;
 }
 
 @keyframes App-logo-spin {
@@ -43,6 +44,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f5f5f5;
+  background-image: linear-gradient(to bottom right, #0f0637, #3c3658);
 }
 
 a {
@@ -71,6 +73,7 @@ header {
   padding: 20px;
   position: relative;
   border-radius: 10px;
+  background-image: linear-gradient(to bottom right, #0f0637, #3c3658);
 }
 
 header a {
@@ -82,7 +85,8 @@ header a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: white;
+  /* background-color: white; */
+  background-image: linear-gradient(to bottom right, #0f0637, #171520);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -128,7 +132,9 @@ nav a:hover {
   margin-top: 20px; */
   text-align: center;
   padding: 50px;
-  background: url('./images/bg1.jpg') no-repeat center center fixed;
+  /* background: url('./images/bg1.jpg') no-repeat center center fixed; */
   background-size: cover;
+  background-image: linear-gradient(to bottom right, #0f0637, #3c3658);
   min-height: 100vh;
+  color: white;
 }

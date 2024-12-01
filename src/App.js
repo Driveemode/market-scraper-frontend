@@ -19,7 +19,7 @@ function App() {
           <header>
             <div className="branding">
               <Link to="/">
-                <img src="/images/marketscraper-logo.png" alt="Market Scraper" className="logo" />
+                <img src="/images/logo1.png" alt="Market Scraper" className="logo" />
               </Link>
               {/* <h1 className="header-title">Market Scraper</h1> */}
             </div>
