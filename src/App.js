@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, useHistory } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
@@ -7,7 +7,7 @@ import AnalysisResultsPage from './pages/AnalysisResultsPage';
 import RegisterPage from './pages/RegisterPage';
 import ConfirmPage from './pages/ConfirmPage';
 import AboutPage from './pages/AboutPage';
-import ProductsPage from './pages/ProductsPage1';
+import ProductsPage from './pages/ProductsPage';
 import { AuthProvider, AuthContext } from './AuthContext';
 import './App.css';
 
@@ -34,7 +34,17 @@ function App() {
                     {isAuthenticated && <Link to="/main">Scrape</Link>}
                     {isAuthenticated && <Link to="/products">Products</Link>}
                     {isAuthenticated && <Link to="/results">Analysis</Link>}
-                    {isAuthenticated && <button onClick={handleLogout}>Logout</button>}
+                    {isAuthenticated && (
+                      <Link
+                        to="/login"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLogout();
+                        }}
+                      >
+                        Logout
+                      </Link>
+                    )}
                   </>
                 )}
               </AuthContext.Consumer>

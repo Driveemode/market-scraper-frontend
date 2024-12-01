@@ -3,16 +3,27 @@ import './ScraperForm.css';
 
 const ScraperForm = () => {
   const [selectedSite, setSelectedSite] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('laptops');
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     const urls = {
-      amazon: 'https://www.amazon.com/s?k=laptops',
-      walmart: 'https://www.walmart.com/search/?query=laptops',
-      bestbuy: 'https://www.bestbuy.com/site/searchpage.jsp?st=laptops',
-      aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=laptops',
+      laptops: {
+        amazon: 'https://www.amazon.com/s?k=laptops',
+        walmart: 'https://www.walmart.com/search/?query=laptops',
+        bestbuy: 'https://www.bestbuy.com/site/searchpage.jsp?st=laptops',
+        aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=laptops',
+      },
+      clothes: {
+        amazon: 'https://www.amazon.com/s?k=clothes',
+        walmart: 'https://www.walmart.com/search/?query=clothes',
+        bestbuy: 'https://www.bestbuy.com/site/searchpage.jsp?st=clothes',
+        aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=clothes',
+      },
     };
 
     const sites = {
@@ -25,7 +36,7 @@ const ScraperForm = () => {
     const method = 'cheerio'; // or 'puppeteer' based on your requirement
 
     try {
-      const url = urls[selectedSite];
+      const url = urls[selectedCategory][selectedSite];
       const site = sites[selectedSite];
       const response = await fetch('http://localhost:3000/api/scrape-ecom-cheerio', {
         method: 'POST',
@@ -43,65 +54,66 @@ const ScraperForm = () => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleCheckboxChange = (event) => {
-    setSelectedSite(event.target.value);
+  const handleBoxClick = (site) => {
+    setSelectedSite(site);
+  };
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
   };
 
   return (
     <div className="App">
       <div className="form-container">
-        <h6>Select Website to be scraped</h6>
+        <h6>Select Category and Website to be scraped</h6>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <input
-              type="checkbox"
-              value="amazon"
-              checked={selectedSite === 'amazon'}
-              onChange={handleCheckboxChange}
-            />
-            <label>Amazon</label>
+            <label htmlFor="category">Category:</label>
+            <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
+              <option value="laptops">Laptops</option>
+              <option value="clothes">Clothes</option>
+            </select>
           </div>
           <div className="form-group">
-            <input
-              type="checkbox"
-              value="walmart"
-              checked={selectedSite === 'walmart'}
-              onChange={handleCheckboxChange}
-            />
-            <label>Walmart</label>
-          </div>
-          <div className="form-group">
-            <input
-              type="checkbox"
-              value="bestbuy"
-              checked={selectedSite === 'bestbuy'}
-              onChange={handleCheckboxChange}
-            />
-            <label>Best Buy</label>
-          </div>
-          <div className="form-group">
-            <input
-              type="checkbox"
-              value="aliexpress"
-              checked={selectedSite === 'aliexpress'}
-              onChange={handleCheckboxChange}
-            />
-            <label>AliExpress</label>
-          </div>
-          <div className="form-group">
-            <input
-              type="checkbox"
-              value="all"
-              checked={selectedSite === 'all'}
-              onChange={handleCheckboxChange}
-            />
-            <label>All</label>
+            <div
+              className={`box ${selectedSite === 'amazon' ? 'active' : ''}`}
+              onClick={() => handleBoxClick('amazon')}
+            >
+              Amazon
+            </div>
+            <div
+              className={`box ${selectedSite === 'walmart' ? 'active' : ''}`}
+              onClick={() => handleBoxClick('walmart')}
+            >
+              Walmart
+            </div>
+            <div
+              className={`box ${selectedSite === 'bestbuy' ? 'active' : ''}`}
+              onClick={() => handleBoxClick('bestbuy')}
+            >
+              Best Buy
+            </div>
+            <div
+              className={`box ${selectedSite === 'aliexpress' ? 'active' : ''}`}
+              onClick={() => handleBoxClick('aliexpress')}
+            >
+              AliExpress
+            </div>
+            <div
+              className={`box ${selectedSite === 'all' ? 'active' : ''}`}
+              onClick={() => handleBoxClick('all')}
+            >
+              All
+            </div>
           </div>
           <button type="submit">Start Scraping</button>
         </form>
+        {loading && <div className="loader">Loading...</div>}
         {result && Array.isArray(result) && result.length > 0 ? (
           <div className="result">
             <h2>Scraping Result</h2>
@@ -125,7 +137,7 @@ const ScraperForm = () => {
             </table>
           </div>
         ) : (
-          <p>No data available</p>
+          !loading && <p>No data available</p>
         )}
       </div>
     </div>
