@@ -7,7 +7,7 @@ import AnalysisResultsPage from './pages/AnalysisResultsPage';
 import RegisterPage from './pages/RegisterPage';
 import ConfirmPage from './pages/ConfirmPage';
 import AboutPage from './pages/AboutPage';
-import ProductsPage from './pages/ProductsPage';
+import ProductsPage from './pages/ProductsPage1';
 import { AuthProvider, AuthContext } from './AuthContext';
 import './App.css';
 

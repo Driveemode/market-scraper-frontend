@@ -15,6 +15,7 @@ table {
   border-collapse: collapse;
   margin-bottom: 20px;
   table-layout: fixed; /* Ensures the table fits the width of the page */
+  background-color: white; /* Set the background color to white */
 }
 
 th, td {
@@ -49,9 +50,9 @@ tr:hover {
 }
 
 .page-link {
-  color: #343940;
+  color: #1a73e8;
   text-decoration: none;
-  padding: 2px 2px;
+  padding: 8px 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
