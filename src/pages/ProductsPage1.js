@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ProductsPage1.css';
+import Dashboard from './Dashboard';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -41,8 +42,8 @@ const ProductsPage = () => {
 
   return (
     <div className="products-page">
-      <h1>Products</h1>
-      <table>
+      {/* <h1>Products</h1> */}
+      {/* <table>
         <thead>
           <tr>
             {filteredKeys.map((key) => (
@@ -59,12 +60,13 @@ const ProductsPage = () => {
             </tr>
           ))}
         </tbody>
-      </table>
-      <Pagination
+      </table> */}
+      {/* <Pagination
         productsPerPage={productsPerPage}
         totalProducts={products.length}
         paginate={paginate}
-      />
+      /> */}
+      {products.length > 0 && <Dashboard products={products} />}
     </div>
   );
 };

@@ -1,0 +1,11 @@
+/* TopRatedProducts.css */
+.topRatedProducts {
+  list-style-type: none;
+  padding: 0;
+  color: white; /* Set the text color to white */
+}
+
+.topRatedProducts li {
+  margin: 5px 0;
+  color: white; /* Ensure the text color of list items is white */
+}
