@@ -9,13 +9,16 @@ import './Dashboard.css';
 const Dashboard = ({ products }) => {
   const { priceDistribution, brandData, topRated, dateTrends } = processData(products);
 
+  const chartWidth = 300; // Adjust the width as needed
+  const chartHeight = 200; // Adjust the height as needed
+
   return (
     <div className="dashboard">
       <h1>Product Analytics</h1>
-      <PriceHistogram data={priceDistribution} />
-      <BrandDistribution data={brandData} />
+      <PriceHistogram data={priceDistribution} width={chartWidth} height={chartHeight} />
+      <BrandDistribution data={brandData} width={chartWidth} height={chartHeight} />
       <TopRatedProducts products={topRated} />
-      <PriceTrends data={dateTrends} />
+      <PriceTrends data={dateTrends} width={chartWidth} height={chartHeight} />
     </div>
   );
 };
