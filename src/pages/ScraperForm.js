@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './ScraperForm.css';
+import swal from 'sweetalert';
 
 const ScraperForm = () => {
   const [selectedSite, setSelectedSite] = useState('');
@@ -14,17 +15,28 @@ const ScraperForm = () => {
     const urls = {
       laptops: {
         amazon: 'https://www.amazon.com/s?k=laptops',
-        walmart: 'https://api.scraperapi.com/structured/walmart/search?api_key=8dcef76ad04710bd64b4362e9ded6185&query=laptops&page=',
+        walmart: 'https://api.scraperapi.com/structured/walmart/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=laptops&page=',
+                // 'https://api.scraperapi.com/structured/walmart/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=laptops&page='
+        // walmart: 'https://www.walmart.com/search/?query=laptops',
         bestbuy: 'https://www.bestbuy.com/site/searchpage.jsp?st=laptops',
         aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=laptops',
-        ebay: 'https://api.scraperapi.com/structured/ebay/search?api_key=8dcef76ad04710bd64b4362e9ded6185&query=Laptops&tld=com&page=',
+        ebay: 'https://api.scraperapi.com/structured/ebay/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=laptops&page=',
       },
       clothes: {
         amazon: 'https://www.amazon.com/s?k=clothes',
-        walmart: 'https://api.scraperapi.com/structured/walmart/search?api_key=8dcef76ad04710bd64b4362e9ded6185&query=clothes&page=',
+        walmart: 'https://api.scraperapi.com/structured/walmart/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=clothes&page=',
+        // walmart: 'https://www.walmart.com/search/?query=clothes',
         bestbuy: 'https://www.bestbuy.com/searchpage.jsp?st=clothes',
         aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=clothes',
-        ebay: 'https://api.scraperapi.com/structured/ebay/search?api_key=8dcef76ad04710bd64b4362e9ded6185&query=Clothes&tld=com&page=',
+        ebay: 'https://api.scraperapi.com/structured/ebay/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=clothes&page=',
+      },
+      tvs: {
+        amazon: 'https://www.amazon.com/s?k=TVs',
+        walmart: 'https://api.scraperapi.com/structured/walmart/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=TVs&page=',
+        // walmart: 'https://www.walmart.com/search/?query=TVs',
+        bestbuy: 'https://www.bestbuy.com/searchpage.jsp?st=TVs',
+        aliexpress: 'https://www.aliexpress.com/wholesale?SearchText=TVs',
+        ebay: 'https://api.scraperapi.com/structured/ebay/search?api_key=17a6f7f56882d4772212741bcbf5f0fe&query=TVs&page=',
       },
     };
 
@@ -52,9 +64,11 @@ const ScraperForm = () => {
       console.log('Data received:', combinedResults); // Debugging step
       if (combinedResults !== undefined) {
         setResult(combinedResults);
+        swal("Success!", "Data fetched successfully!", "success");
       }
     } catch (error) {
       console.error('Error fetching data:', error);
+      swal("Error!", "Failed to fetch data!", "error");
     } finally {
       setLoading(false);
     }
@@ -78,6 +92,7 @@ const ScraperForm = () => {
             <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
               <option value="laptops">Laptops</option>
               <option value="clothes">Clothes</option>
+              <option value="tvs">TVs</option> {/* Added new category */}
             </select>
           </div>
           <div className="form-group">
@@ -93,7 +108,7 @@ const ScraperForm = () => {
             >
               Walmart
             </div>
-            {/* <div
+            <div
               className={`box ${selectedSite === 'bestbuy' ? 'active' : ''}`}
               onClick={() => handleBoxClick('bestbuy')}
             >
@@ -104,19 +119,19 @@ const ScraperForm = () => {
               onClick={() => handleBoxClick('aliexpress')}
             >
               AliExpress
-            </div> */}
+            </div>
             <div
               className={`box ${selectedSite === 'ebay' ? 'active' : ''}`}
               onClick={() => handleBoxClick('ebay')}
             >
               eBay
             </div>
-            {/* <div
+            <div
               className={`box ${selectedSite === 'all' ? 'active' : ''}`}
               onClick={() => handleBoxClick('all')}
             >
               All
-            </div> */}
+            </div>
           </div>
           <button type="submit">Start Scraping</button>
         </form>
